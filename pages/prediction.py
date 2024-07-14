@@ -56,7 +56,6 @@ def predict_image(image, model):
         threshold = 0.1
         predicted_labels = (output > threshold).squeeze().int()
         return predicted_labels
-
 def create_pdf(fullname, age, height_cm, weight_kg, gender, view_position, allergies, pred_labels, image_path):
     pdf = FPDF()
     pdf.add_page()
@@ -80,7 +79,9 @@ def create_pdf(fullname, age, height_cm, weight_kg, gender, view_position, aller
             if pred_labels[idx] == 1:
                 pdf.cell(200, 10, txt=f"- {label}", ln=True, align='L')
     
-    pdf.cell(200, 0, txt="Uploaded Image:", ln=True, align='L')
+    pdf.ln(10)  # Add some space before the image
+    pdf.cell(200, 10, txt="Uploaded Image:", ln=True, align='L')
+    pdf.ln(10)  # Add some space before the image
     pdf.image(image_path, x=10, y=pdf.get_y(), w=100)
 
     pdf_output = os.path.join(os.getcwd(), "collected_data.pdf")
